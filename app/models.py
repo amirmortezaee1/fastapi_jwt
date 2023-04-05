@@ -12,7 +12,9 @@ class UserModel(database.Base):
     password_hash = sqlalchemy.Column(sqlalchemy.String)
     created_at = sqlalchemy.Column(sqlalchemy.DateTime, default = datetime.datetime.utcnow)
     posts = orm.relationship("Post", back_populates= "users")
-
+    
+    def password_verification(self, password: str):
+        return hash.bcrypt.verify(password, self.password_hash)
 class PostModel(database.Base):
     __tablename__ ="posts"
     id = sqlalchemy.Column(sqlalchemy.Integer)
